@@ -1,0 +1,5 @@
+../Core/Src/lcd_seven_segment.c:18:13:show_digit	1
+../Core/Src/lcd_seven_segment.c:29:13:choose_digit	2
+../Core/Src/lcd_seven_segment.c:50:6:seg7_update	3
+../Core/Src/lcd_seven_segment.c:69:6:seg7_init	1
+../Core/Src/lcd_seven_segment.c:83:19:seg7_display_number	2
