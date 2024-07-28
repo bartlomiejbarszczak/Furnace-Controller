@@ -70,15 +70,15 @@ typedef struct LCD_GPIO {
 
 void lcd_full_box(int x, int y, int width, int height, uint16_t color);
 
-void lcd_put_pixel(int x, int y, uint16_t color);
+void lcd_put_pixel(int16_t x, int16_t y, uint16_t color);
 
 HAL_StatusTypeDef lcd_init(SPI_HandleTypeDef* lcd_spi, LCD_GPIO* lcd_cs, LCD_GPIO* lcd_dc, LCD_GPIO* lcd_rst);
 
-void lcd_show(void);
+HAL_StatusTypeDef lcd_show(void);
 
 void lcd_transfer_done(void);
 
-LCD_STATE lcd_is_busy(void);
+bool lcd_is_busy(void);
 
 void lcd_draw_circle_full(int x, int y, int radius, uint16_t color);
 
@@ -86,4 +86,8 @@ void lcd_draw_circle(int x, int y, int radius, uint16_t color);
 
 void lcd_draw_line(int start_x, int start_y, int end_x, int end_y, uint16_t color);
 
-void lcd_draw_backgroud();
+HAL_StatusTypeDef lcd_draw_background();
+
+HAL_StatusTypeDef lcd_draw_setting_1();
+
+HAL_StatusTypeDef lcd_draw_setting_2();

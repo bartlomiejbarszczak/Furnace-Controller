@@ -8,7 +8,7 @@
 
 
 void eeprom_init(I2C_HandleTypeDef* eeprom_i2c);
-HAL_StatusTypeDef eeprom_write(uint32_t address, const uint8_t* data, uint32_t size);
+HAL_StatusTypeDef eeprom_write(uint32_t address, uint8_t* data, uint32_t size);
 HAL_StatusTypeDef eeprom_read(uint32_t address, uint8_t* data, uint32_t size);
 
 

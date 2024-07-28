@@ -1,0 +1,5 @@
+../Core/Src/menu.c:14:13:is_clicked	8	static
+../Core/Src/menu.c:22:26:draw_menu_main	8	static
+../Core/Src/menu.c:31:13:get_menu_screen	4	static
+../Core/Src/menu.c:73:6:menu_init	24	static
+../Core/Src/menu.c:81:19:render_menu	16	static

@@ -59,9 +59,19 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define SD_Select_Pin GPIO_PIN_15
 #define SD_Select_GPIO_Port GPIOC
+#define BLOWER_Pin GPIO_PIN_12
+#define BLOWER_GPIO_Port GPIOB
+#define UNDERFLOOR_PUMP_Pin GPIO_PIN_13
+#define UNDERFLOOR_PUMP_GPIO_Port GPIOB
+#define MIXING_PUMP_Pin GPIO_PIN_14
+#define MIXING_PUMP_GPIO_Port GPIOB
+#define FURNACE_PUMP_Pin GPIO_PIN_15
+#define FURNACE_PUMP_GPIO_Port GPIOB
+#define ENC_BTN_Pin GPIO_PIN_8
+#define ENC_BTN_GPIO_Port GPIOA
 #define LCD_RST_Pin GPIO_PIN_10
 #define LCD_RST_GPIO_Port GPIOA
-#define LCD_CS_Pin GPIO_PIN_3
+#define LCD_CS_Pin GPIO_PIN_4
 #define LCD_CS_GPIO_Port GPIOB
 #define LCD_DC_Pin GPIO_PIN_5
 #define LCD_DC_GPIO_Port GPIOB
