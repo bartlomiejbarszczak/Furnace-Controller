@@ -13,7 +13,7 @@
 #define LCD_MAX_TIMEOUT 	0x64
 
 
-static SPI_HandleTypeDef LCD_SPI;
+static SPI_HandleTypeDef* LCD_SPI;
 static LCD_GPIO LCD_CS;
 static LCD_GPIO LCD_DC;
 static LCD_GPIO LCD_RST;
@@ -46,7 +46,7 @@ static HAL_StatusTypeDef lcd_cmd(uint8_t cmd) {
 	HAL_GPIO_WritePin(LCD_DC.Port, LCD_DC.Pin, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(LCD_CS.Port, LCD_CS.Pin, GPIO_PIN_RESET);
 
-	if (HAL_SPI_Transmit(&LCD_SPI, &cmd, 1, LCD_MAX_TIMEOUT) != HAL_OK)
+	if (HAL_SPI_Transmit(LCD_SPI, &cmd, 1, LCD_MAX_TIMEOUT) != HAL_OK)
 		return HAL_ERROR;
 
 	HAL_GPIO_WritePin(LCD_CS.Port, LCD_CS.Pin, GPIO_PIN_SET);
@@ -57,7 +57,7 @@ static HAL_StatusTypeDef lcd_data(uint8_t data) {
 	HAL_GPIO_WritePin(LCD_DC.Port, LCD_DC.Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(LCD_CS.Port, LCD_CS.Pin, GPIO_PIN_RESET);
 
-	if (HAL_SPI_Transmit(&LCD_SPI, &data, 1, LCD_MAX_TIMEOUT) != HAL_OK)
+	if (HAL_SPI_Transmit(LCD_SPI, &data, 1, LCD_MAX_TIMEOUT) != HAL_OK)
 		return HAL_ERROR;
 
 	HAL_GPIO_WritePin(LCD_CS.Port, LCD_CS.Pin, GPIO_PIN_SET);
@@ -84,7 +84,7 @@ static HAL_StatusTypeDef lcd_send(uint16_t value) {
 
 
 HAL_StatusTypeDef lcd_init(SPI_HandleTypeDef* lcd_spi, LCD_GPIO* lcd_cs, LCD_GPIO* lcd_dc, LCD_GPIO* lcd_rst) {
-	LCD_SPI = *lcd_spi;
+	LCD_SPI = lcd_spi;
 	LCD_CS = *lcd_cs;
 	LCD_DC = *lcd_dc;
 	LCD_RST = *lcd_rst;
@@ -122,28 +122,28 @@ static void lcd_set_window(int x, int y, int width, int height) {
 	lcd_data16(LCD_OFFSET_Y + y + height- 1);
 }
 
-void lcd_put_pixel(int x, int y, uint16_t color)
+void lcd_put_pixel(int16_t x, int16_t y, uint16_t color)
 {
 	buffer[x + y * LCD_WIDTH] = __REV16(color);
 }
 
-void lcd_show(void) {
+HAL_StatusTypeDef lcd_show(void) {
 	lcd_set_window(0, 0, LCD_WIDTH, LCD_HEIGHT);
 	lcd_cmd(ST7735S_RAMWR);
 	HAL_GPIO_WritePin(LCD_DC.Port, LCD_DC.Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(LCD_CS.Port, LCD_CS.Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit_DMA(&LCD_SPI, (uint8_t*)buffer, sizeof(buffer));
+	return HAL_SPI_Transmit_DMA(LCD_SPI, (uint8_t*)buffer, sizeof(buffer));
 }
 
 void lcd_transfer_done(void) {
 	HAL_GPIO_WritePin(LCD_CS.Port, LCD_CS.Pin, GPIO_PIN_SET);
 }
 
-LCD_STATE lcd_is_busy(void) {
-	if (HAL_SPI_GetState(&LCD_SPI) == HAL_SPI_STATE_BUSY)
-		return LCD_BUSY;
+bool lcd_is_busy(void) {
+	if (HAL_SPI_GetState(LCD_SPI) == HAL_SPI_STATE_BUSY)
+		return true;
 	else
-		return LCD_OK;
+		return false;
 }
 
 void lcd_full_box(int x, int y, int width, int height, uint16_t color) {
@@ -152,8 +152,6 @@ void lcd_full_box(int x, int y, int width, int height, uint16_t color) {
 			lcd_put_pixel(i, j, color);
 		}
 	}
-
-//	lcd_show();
 }
 
 void lcd_empty_box(uint8_t x, uint8_t y, uint8_t width, uint8_t height, uint16_t color) {
@@ -166,13 +164,9 @@ void lcd_empty_box(uint8_t x, uint8_t y, uint8_t width, uint8_t height, uint16_t
 		lcd_put_pixel(x, i, color);
 		lcd_put_pixel(x + width, i, color);
 	}
-
-//	lcd_show();
 }
 
 void lcd_draw_circle_full(int x, int y, int radius, uint16_t color) {
-//	uint8_t idk;
-
 	for (int i = x - 5; i < 100; i++) {
 
 	}
@@ -189,7 +183,9 @@ void lcd_draw_line(int start_x, int start_y, int end_x, int end_y, uint16_t colo
 //	}
 }
 
-void lcd_draw_backgroud() {
+HAL_StatusTypeDef lcd_draw_background() {
+	while (lcd_is_busy()) {
+	}
 	lcd_full_box(0, 0, LCD_WIDTH, LCD_HEIGHT, WHITE);
 
 	// drawing fire place
@@ -203,7 +199,28 @@ void lcd_draw_backgroud() {
 
 
 	// flush the result
-	lcd_show();
+	return lcd_show();
+}
+
+HAL_StatusTypeDef lcd_draw_setting_1() {
+	while (lcd_is_busy()) {
+	}
+	lcd_full_box(0, 0, LCD_WIDTH, LCD_HEIGHT, WHITE);
+
+	lcd_full_box(50, 50, 10, 30, RED);
+
+	return lcd_show();
+}
+
+
+HAL_StatusTypeDef lcd_draw_setting_2() {
+	while (lcd_is_busy()) {
+	}
+	lcd_full_box(0, 0, LCD_WIDTH, LCD_HEIGHT, WHITE);
+
+	lcd_full_box(20, 20, 100, 60, GREEN);
+
+	return lcd_show();
 }
 
 

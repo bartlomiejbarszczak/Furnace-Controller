@@ -17,12 +17,14 @@ static void deserialize_FCC(FCC* data, uint8_t* buffer) {
 // read the furnace controller configuration
 HAL_StatusTypeDef read_fc_configuration(FCC* fcc) {
 	uint8_t n = sizeof(FCC) / sizeof(uint8_t);
-	uint8_t buffer[n];
+	uint8_t fcc_buffer[n];
 
-	if (eeprom_read(0, buffer, sizeof(buffer)) != HAL_OK)
-		return HAL_ERROR;
+	for (uint8_t i = 0; i < n; i++) {
+		if (eeprom_read(i, &fcc_buffer[i], sizeof(fcc_buffer[i])) != HAL_OK)
+			return HAL_ERROR;
+	}
 
-	deserialize_FCC(fcc, buffer);
+	deserialize_FCC(fcc, fcc_buffer);
 
 	return HAL_OK;
 }
@@ -32,12 +34,15 @@ HAL_StatusTypeDef read_fc_configuration(FCC* fcc) {
 HAL_StatusTypeDef write_fc_configuration(FCC* fcc) {
 	if (has_changes) {
 		uint8_t n = sizeof(FCC) / sizeof(uint8_t);
-		uint8_t buffer[n];
+		uint8_t fcc_buffer[n];
 
-		serialize_FCC(fcc, buffer);
+		serialize_FCC(fcc, fcc_buffer);
 
-		if (eeprom_write(0, buffer, sizeof(buffer)) != HAL_OK)
-			return HAL_ERROR;
+		for (uint8_t i = 0; i < n; i++) {
+			if (eeprom_write(i, &fcc_buffer[i], sizeof(fcc_buffer[i])) != HAL_OK)
+				return HAL_ERROR;
+		}
+
 
 		has_changes = false;
 	}

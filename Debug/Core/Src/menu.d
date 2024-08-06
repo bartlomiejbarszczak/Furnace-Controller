@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Core/Src/menu.o: ../Core/Src/menu.c ../Core/Inc/menu.h \
  D:/Studies/0myfiles/STM32L476/Controller/lvgl/src/lvgl.h \
  D:/Studies/0myfiles/STM32L476/Controller/lvgl/src/../lvgl.h \
@@ -401,6 +402,9 @@ Core/Src/menu.o: ../Core/Src/menu.c ../Core/Inc/menu.h \
  D:/Studies/0myfiles/STM32L476/Controller/lvgl/src/lv_conf_internal.h \
  ../Core/Inc/menu_cb.h ../Core/Inc/menu.h \
  ../Core/Inc/fire_controller_configuration.h ../Core/Inc/main.h \
+=======
+Core/Src/menu.o: ../Core/Src/menu.c ../Core/Inc/menu.h ../Core/Inc/main.h \
+>>>>>>> 69c5dae536fbfef5287070d68229e71fd461c5fb
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
  ../Core/Inc/stm32l4xx_hal_conf.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
@@ -437,6 +441,7 @@ Core/Src/menu.o: ../Core/Src/menu.c ../Core/Inc/menu.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
+<<<<<<< HEAD
  ../Core/Inc/eeprom.h ../Core/Inc/i2c.h
 ../Core/Inc/menu.h:
 D:/Studies/0myfiles/STM32L476/Controller/lvgl/src/lvgl.h:
@@ -842,6 +847,12 @@ D:/Studies/0myfiles/STM32L476/Controller/lvgl/src/lv_conf_internal.h:
 ../Core/Inc/menu_cb.h:
 ../Core/Inc/menu.h:
 ../Core/Inc/fire_controller_configuration.h:
+=======
+ ../Core/Inc/tim.h ../Core/Inc/lcd.h ../Core/Inc/spi.h \
+ ../Core/Inc/fire_controller_configuration.h ../Core/Inc/eeprom.h \
+ ../Core/Inc/i2c.h
+../Core/Inc/menu.h:
+>>>>>>> 69c5dae536fbfef5287070d68229e71fd461c5fb
 ../Core/Inc/main.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../Core/Inc/stm32l4xx_hal_conf.h:
@@ -879,5 +890,12 @@ D:/Studies/0myfiles/STM32L476/Controller/lvgl/src/lv_conf_internal.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
+<<<<<<< HEAD
+=======
+../Core/Inc/tim.h:
+../Core/Inc/lcd.h:
+../Core/Inc/spi.h:
+../Core/Inc/fire_controller_configuration.h:
+>>>>>>> 69c5dae536fbfef5287070d68229e71fd461c5fb
 ../Core/Inc/eeprom.h:
 ../Core/Inc/i2c.h:

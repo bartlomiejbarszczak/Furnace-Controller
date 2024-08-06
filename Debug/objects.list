@@ -6,6 +6,7 @@
 "./Core/Src/lcd.o"
 "./Core/Src/lcd_seven_segment.o"
 "./Core/Src/main.o"
+"./Core/Src/menu.o"
 "./Core/Src/one_wire.o"
 "./Core/Src/rtc.o"
 "./Core/Src/sd_controll.o"

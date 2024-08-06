@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 D:/Studies/0myfiles/STM32L476/Controller/lvgl/src/../src/core/lv_obj_pos.h:198:20:lv_obj_center	0	static
 ../Core/Src/menu.c:90:13:create_default_screen	8	static
 ../Core/Src/menu.c:188:6:create_main_screen	40	static
@@ -12,3 +13,10 @@ D:/Studies/0myfiles/STM32L476/Controller/lvgl/src/../src/core/lv_obj_pos.h:198:2
 ../Core/Src/menu.c:459:6:get_settings_data	48	static
 ../Core/Src/menu.c:478:6:check_if_inactive	8	static
 ../Core/Src/menu.c:488:6:start_menu	8	static
+=======
+../Core/Src/menu.c:14:13:is_clicked	8	static
+../Core/Src/menu.c:22:26:draw_menu_main	8	static
+../Core/Src/menu.c:31:13:get_menu_screen	4	static
+../Core/Src/menu.c:73:6:menu_init	24	static
+../Core/Src/menu.c:81:19:render_menu	16	static
+>>>>>>> 69c5dae536fbfef5287070d68229e71fd461c5fb

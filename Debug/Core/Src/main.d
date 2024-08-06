@@ -48,7 +48,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Core/Inc/one_wire.h ../Core/Inc/eeprom.h ../Core/Inc/i2c.h \
  ../Core/Inc/fire_controller_configuration.h ../Core/Inc/eeprom.h \
  ../Core/Inc/sd_controll.h ../Core/Inc/rtc.h ../Core/Inc/lcd.h \
- ../Core/Inc/spi.h
+ ../Core/Inc/spi.h ../Core/Inc/menu.h \
+ ../Core/Inc/fire_controller_configuration.h
 ../Core/Inc/main.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../Core/Inc/stm32l4xx_hal_conf.h:
@@ -116,3 +117,5 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/rtc.h:
 ../Core/Inc/lcd.h:
 ../Core/Inc/spi.h:
+../Core/Inc/menu.h:
+../Core/Inc/fire_controller_configuration.h:
