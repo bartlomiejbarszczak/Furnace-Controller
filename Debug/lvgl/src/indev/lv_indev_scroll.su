@@ -1,0 +1,8 @@
+../lvgl/src/indev/lv_indev_scroll.c:568:16:find_snap_point_y	64	static
+../lvgl/src/indev/lv_indev_scroll.c:512:16:find_snap_point_x	64	static
+../lvgl/src/indev/lv_indev_scroll.c:637:16:elastic_diff	32	static
+../lvgl/src/indev/lv_indev_scroll.c:225:9:lv_indev_scroll_throw_predict	0	static
+../lvgl/src/indev/lv_indev_scroll.c:113:6:_lv_indev_scroll_throw_handler	40	static
+../lvgl/src/indev/lv_indev_scroll.c:250:6:lv_indev_scroll_get_snap_dist	16	static
+../lvgl/src/indev/lv_indev_scroll.c:256:12:lv_indev_find_scroll_obj	96	static
+../lvgl/src/indev/lv_indev_scroll.c:44:6:_lv_indev_scroll_handler	64	static

@@ -1,0 +1,14 @@
+D:/Studies/0myfiles/STM32L476/Controller/lvgl/src/../src/core/lv_obj_pos.h:198:20:lv_obj_center	1
+../Core/Src/menu.c:90:13:create_default_screen	1
+../Core/Src/menu.c:188:6:create_main_screen	1
+../Core/Src/menu.c:409:13:set_led	3
+../Core/Src/menu.c:318:6:create_settings_screen	2
+../Core/Src/menu.c:348:6:create_specific_setting_screen	12
+../Core/Src/menu.c:395:6:switch_screen	10
+../Core/Src/menu.c:400:6:set_specific_option	1
+../Core/Src/menu.c:404:6:should_start	1
+../Core/Src/menu.c:421:6:send_input_data	2
+../Core/Src/menu.c:440:6:menu_init	2
+../Core/Src/menu.c:459:6:get_settings_data	3
+../Core/Src/menu.c:478:6:check_if_inactive	5
+../Core/Src/menu.c:488:6:start_menu	1

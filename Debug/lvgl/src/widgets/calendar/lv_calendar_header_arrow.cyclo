@@ -1,0 +1,4 @@
+../lvgl/src/widgets/calendar/lv_calendar_header_arrow.c:66:13:my_constructor	1
+../lvgl/src/widgets/calendar/lv_calendar_header_arrow.c:144:13:value_changed_event_cb	2
+../lvgl/src/widgets/calendar/lv_calendar_header_arrow.c:104:13:month_event_cb	5
+../lvgl/src/widgets/calendar/lv_calendar_header_arrow.c:55:12:lv_calendar_header_arrow_create	1

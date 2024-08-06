@@ -1,0 +1,4 @@
+../Core/Src/port_encoder.c:20:13:encoder_read	1
+../Core/Src/port_encoder.c:52:6:lv_port_indev_init	1
+../Core/Src/port_encoder.c:62:6:encoder_handler	6
+../Core/Src/port_encoder.c:76:13:encoder_get_ptr	1

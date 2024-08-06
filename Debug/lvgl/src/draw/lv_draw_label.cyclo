@@ -1,0 +1,7 @@
+../lvgl/src/draw/../misc/lv_text_private.h:165:20:lv_text_is_marker	9
+../lvgl/src/draw/lv_draw_label.c:54:6:lv_draw_label_dsc_init	1
+../lvgl/src/draw/lv_draw_label.c:68:23:lv_draw_task_get_label_dsc	2
+../lvgl/src/draw/lv_draw_label.c:73:6:lv_draw_glyph_dsc_init	1
+../lvgl/src/draw/lv_draw_label.c:78:28:lv_draw_label	6
+../lvgl/src/draw/lv_draw_label.c:105:28:lv_draw_character	5
+../lvgl/src/draw/lv_draw_label.c:145:6:lv_draw_label_iterate_characters	44

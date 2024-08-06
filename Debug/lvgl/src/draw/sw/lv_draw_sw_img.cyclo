@@ -1,0 +1,4 @@
+../lvgl/src/draw/sw/../../misc/../font/../draw/../misc/lv_color.h:236:23:lv_color_format_get_size	1
+../lvgl/src/draw/sw/lv_draw_sw_img.c:175:13:img_draw_core	43
+../lvgl/src/draw/sw/lv_draw_sw_img.c:160:6:lv_draw_sw_image	2
+../lvgl/src/draw/sw/lv_draw_sw_img.c:70:6:lv_draw_sw_layer	2

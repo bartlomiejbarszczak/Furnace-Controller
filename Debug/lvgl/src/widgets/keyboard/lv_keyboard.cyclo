@@ -1,0 +1,12 @@
+../lvgl/src/widgets/keyboard/lv_keyboard.c:412:13:lv_keyboard_update_ctrl_map	3
+../lvgl/src/widgets/keyboard/lv_keyboard.c:401:13:lv_keyboard_update_map	1
+../lvgl/src/widgets/keyboard/lv_keyboard.c:380:13:lv_keyboard_constructor	1
+../lvgl/src/widgets/keyboard/lv_keyboard.c:272:6:lv_keyboard_def_event_cb	23
+../lvgl/src/widgets/keyboard/lv_keyboard.c:179:12:lv_keyboard_create	1
+../lvgl/src/widgets/keyboard/lv_keyboard.c:191:6:lv_keyboard_set_textarea	3
+../lvgl/src/widgets/keyboard/lv_keyboard.c:213:6:lv_keyboard_set_mode	2
+../lvgl/src/widgets/keyboard/lv_keyboard.c:223:6:lv_keyboard_set_popovers	2
+../lvgl/src/widgets/keyboard/lv_keyboard.c:235:6:lv_keyboard_set_map	1
+../lvgl/src/widgets/keyboard/lv_keyboard.c:248:12:lv_keyboard_get_textarea	1
+../lvgl/src/widgets/keyboard/lv_keyboard.c:255:20:lv_keyboard_get_mode	1
+../lvgl/src/widgets/keyboard/lv_keyboard.c:262:6:lv_buttonmatrix_get_popovers	1

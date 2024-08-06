@@ -1,0 +1,6 @@
+../lvgl/src/themes/simple/lv_theme_simple.c:204:13:theme_apply	35
+../lvgl/src/themes/simple/lv_theme_simple.c:144:6:lv_theme_simple_is_inited	2
+../lvgl/src/themes/simple/lv_theme_simple.c:427:13:style_init_reset	2
+../lvgl/src/themes/simple/lv_theme_simple.c:151:14:lv_theme_simple_get	2
+../lvgl/src/themes/simple/lv_theme_simple.c:160:6:lv_theme_simple_deinit	4
+../lvgl/src/themes/simple/lv_theme_simple.c:176:14:lv_theme_simple_init	4

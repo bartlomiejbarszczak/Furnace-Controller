@@ -1,0 +1,15 @@
+../lvgl/src/widgets/canvas/lv_canvas.c:396:13:lv_canvas_constructor	0	static
+../lvgl/src/widgets/canvas/lv_canvas.c:402:13:lv_canvas_destructor	0	static
+../lvgl/src/widgets/canvas/lv_canvas.c:54:12:lv_canvas_create	8	static
+../lvgl/src/widgets/canvas/lv_canvas.c:66:6:lv_canvas_set_buffer	48	static
+../lvgl/src/widgets/canvas/lv_canvas.c:85:6:lv_canvas_set_draw_buf	16	static
+../lvgl/src/widgets/canvas/lv_canvas.c:102:6:lv_canvas_set_px	48	static
+../lvgl/src/widgets/canvas/lv_canvas.c:175:6:lv_canvas_set_palette	16	static
+../lvgl/src/widgets/canvas/lv_canvas.c:189:17:lv_canvas_get_draw_buf	0	static
+../lvgl/src/widgets/canvas/lv_canvas.c:197:14:lv_canvas_get_px	32	static
+../lvgl/src/widgets/canvas/lv_canvas.c:250:18:lv_canvas_get_image	0	static
+../lvgl/src/widgets/canvas/lv_canvas.c:258:14:lv_canvas_get_buf	0	static
+../lvgl/src/widgets/canvas/lv_canvas.c:273:6:lv_canvas_copy_buf	8	static
+../lvgl/src/widgets/canvas/lv_canvas.c:287:6:lv_canvas_fill_bg	56	static
+../lvgl/src/widgets/canvas/lv_canvas.c:365:6:lv_canvas_init_layer	24	static
+../lvgl/src/widgets/canvas/lv_canvas.c:382:6:lv_canvas_finish_layer	16	static

@@ -1,0 +1,6 @@
+../Core/Src/lcd_controller.c:19:13:disp_flush	2
+../Core/Src/lcd_controller.c:31:6:lv_port_disp_init	1
+../Core/Src/lcd_controller.c:41:6:disp_enable_update	1
+../Core/Src/lcd_controller.c:46:6:disp_disable_update	1
+../Core/Src/lcd_controller.c:51:6:lcd_transfer_done	1
+../Core/Src/lcd_controller.c:57:15:disp_get_ptr	1

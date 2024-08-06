@@ -1,0 +1,6 @@
+../lvgl/src/misc/cache/lv_image_cache.c:125:31:image_cache_compare_cb	8	static
+../lvgl/src/misc/cache/lv_image_cache.c:132:13:image_cache_free_cb	8	static
+../lvgl/src/misc/cache/lv_image_cache.c:53:13:lv_image_cache_init	40	static
+../lvgl/src/misc/cache/lv_image_cache.c:70:6:lv_image_cache_resize	16	static
+../lvgl/src/misc/cache/lv_image_cache.c:78:6:lv_image_cache_drop	40	static
+../lvgl/src/misc/cache/lv_image_cache.c:96:6:lv_image_cache_is_enabled	0	static

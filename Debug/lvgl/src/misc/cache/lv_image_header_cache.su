@@ -1,0 +1,6 @@
+../lvgl/src/misc/cache/lv_image_header_cache.c:120:31:image_header_cache_compare_cb	8	static
+../lvgl/src/misc/cache/lv_image_header_cache.c:127:13:image_header_cache_free_cb	0	static
+../lvgl/src/misc/cache/lv_image_header_cache.c:51:13:lv_image_header_cache_init	40	static
+../lvgl/src/misc/cache/lv_image_header_cache.c:68:6:lv_image_header_cache_resize	16	static
+../lvgl/src/misc/cache/lv_image_header_cache.c:76:6:lv_image_header_cache_drop	40	static
+../lvgl/src/misc/cache/lv_image_header_cache.c:91:6:lv_image_header_cache_is_enabled	0	static

@@ -1,0 +1,11 @@
+../lvgl/src/misc/lv_color.c:44:9:lv_color_format_get_bpp	2
+../lvgl/src/misc/lv_color.c:79:6:lv_color_format_has_alpha	2
+../lvgl/src/misc/lv_color.c:99:14:lv_color_to_32	1
+../lvgl/src/misc/lv_color.c:109:10:lv_color_to_u16	1
+../lvgl/src/misc/lv_color.c:114:10:lv_color_to_u32	1
+../lvgl/src/misc/lv_color.c:119:12:lv_color_lighten	1
+../lvgl/src/misc/lv_color.c:125:12:lv_color_darken	1
+../lvgl/src/misc/lv_color.c:260:19:lv_color_filter_shade_cb	3
+../lvgl/src/misc/lv_color.c:130:12:lv_color_hsv_to_rgb	7
+../lvgl/src/misc/lv_color.c:188:16:lv_color_rgb_to_hsv	9
+../lvgl/src/misc/lv_color.c:239:16:lv_color_to_hsv	1
