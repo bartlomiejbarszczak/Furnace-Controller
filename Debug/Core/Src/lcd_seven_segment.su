@@ -1,5 +1,5 @@
-../Core/Src/lcd_seven_segment.c:18:13:show_digit	16	static
-../Core/Src/lcd_seven_segment.c:29:13:choose_digit	32	static
-../Core/Src/lcd_seven_segment.c:50:6:seg7_update	8	static
-../Core/Src/lcd_seven_segment.c:69:6:seg7_init	24	static
-../Core/Src/lcd_seven_segment.c:83:19:seg7_display_number	16	static
+../Core/Src/lcd_seven_segment.c:18:13:show_digit	8	static
+../Core/Src/lcd_seven_segment.c:29:13:choose_digit	24	static
+../Core/Src/lcd_seven_segment.c:50:6:seg7_update	24	static
+../Core/Src/lcd_seven_segment.c:69:6:seg7_init	32	static
+../Core/Src/lcd_seven_segment.c:83:19:seg7_display_number	0	static

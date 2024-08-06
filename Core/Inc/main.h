@@ -67,8 +67,8 @@ void Error_Handler(void);
 #define MIXING_PUMP_GPIO_Port GPIOB
 #define FURNACE_PUMP_Pin GPIO_PIN_15
 #define FURNACE_PUMP_GPIO_Port GPIOB
-#define ENC_BTN_Pin GPIO_PIN_8
-#define ENC_BTN_GPIO_Port GPIOA
+#define ENCODER_BTN_Pin GPIO_PIN_8
+#define ENCODER_BTN_GPIO_Port GPIOA
 #define LCD_RST_Pin GPIO_PIN_10
 #define LCD_RST_GPIO_Port GPIOA
 #define LCD_CS_Pin GPIO_PIN_4

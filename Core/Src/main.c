@@ -37,8 +37,12 @@
 #include "eeprom.h"
 #include "fire_controller_configuration.h"
 #include "sd_controll.h"
+
+#include "lvgl.h"
 #include "lcd.h"
+#include "lcd_controller.h"
 #include "menu.h"
+#include "port_encoder.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -55,6 +59,7 @@ typedef enum {
 typedef struct {
 	GPIO_TypeDef* Port;
 	uint16_t Pin;
+	bool is_active;
 } PUMP_GPIO;
 /* USER CODE END PTD */
 
@@ -73,25 +78,26 @@ typedef struct {
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-static LCD_GPIO lcd_cs = {LCD_CS_GPIO_Port, LCD_CS_Pin};
-static LCD_GPIO lcd_dc = {LCD_DC_GPIO_Port, LCD_DC_Pin};
-static LCD_GPIO lcd_rst = {LCD_RST_GPIO_Port, LCD_RST_Pin};
-static LCD_GPIO enc_btn = {ENC_BTN_GPIO_Port, ENC_BTN_Pin};
-static PUMP_GPIO furnace_pump = {FURNACE_PUMP_GPIO_Port, FURNACE_PUMP_Pin};		// TODO
-static PUMP_GPIO mixing_pump = {MIXING_PUMP_GPIO_Port, MIXING_PUMP_Pin};			// TODO
-static PUMP_GPIO underfloor_pump = {UNDERFLOOR_PUMP_GPIO_Port, UNDERFLOOR_PUMP_Pin};		// TODO
-static PUMP_GPIO blower = {BLOWER_GPIO_Port, BLOWER_Pin};				// TODO
+static PUMP_GPIO furnace_pump = {FURNACE_PUMP_GPIO_Port, FURNACE_PUMP_Pin, false};
+static PUMP_GPIO mixing_pump = {MIXING_PUMP_GPIO_Port, MIXING_PUMP_Pin, false};
+static PUMP_GPIO underfloor_pump = {UNDERFLOOR_PUMP_GPIO_Port, UNDERFLOOR_PUMP_Pin, false};
+static PUMP_GPIO blower = {BLOWER_GPIO_Port, BLOWER_Pin, false};
 static FCC fcc = {60, 2, 30, 50, 15, 6, 60, 55, 4, 10, 40, 4, 0, 45, 1, 1};
 static float temperature_array[NO_SENSORS] = {0};
-static uint8_t encoder_value = 0;
 static bool do_log = true;
 static bool do_blowout = false;
 static bool stop_blowout = true;
 static uint16_t sd_counter = 0;
 static uint16_t blowout_activ_time = 0;
 static uint16_t blowout_break_time = 0;
+static int16_t current_furnace_temperature = 0;
+static int16_t last_furance_temperature = 0;
+static int8_t temperature_diff_counter = 0;
 static FSM current_state = FSM_IDLE;
 static FSM last_state = FSM_IDLE;
+
+static input_data_t menu_data = {0, 60, 61, 59, 1, 1, 0, 0};
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -103,6 +109,7 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 static void do_counts() {
+	current_furnace_temperature = (int16_t)temperature_array[0];
 	sd_counter++;
 	if (do_blowout) {
 		blowout_activ_time++;
@@ -111,8 +118,8 @@ static void do_counts() {
 		blowout_break_time++;
 	}
 
-
 	if (sd_counter == 3600) {
+		temperature_diff_counter = 0;
 		sd_counter = 0;
 		do_log = true;
 	}
@@ -125,6 +132,15 @@ static void do_counts() {
 	if (blowout_activ_time >= fcc.blowout_time) {
 		do_blowout = false;
 		stop_blowout = true;
+	}
+
+	if (current_furnace_temperature > last_furance_temperature) {
+		temperature_diff_counter++;
+		last_furance_temperature = current_furnace_temperature;
+	}
+	else if (current_furnace_temperature < last_furance_temperature) {
+		temperature_diff_counter--;
+		last_furance_temperature = current_furnace_temperature;
 	}
 
 }
@@ -144,7 +160,7 @@ int __io_putchar(int ch)
 
 void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
 {
-	if (hspi == &hspi1)
+	if (hspi == &hspi2)
 	{
 		lcd_transfer_done();
 	}
@@ -160,41 +176,22 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 }
 
 
-static void read_encoder_data() {
-	encoder_value =__HAL_TIM_GET_COUNTER(&htim2) >> 1;
-
-	if (encoder_value > 16 && encoder_value <= 18){
-		  __HAL_TIM_SET_COUNTER(&htim2, 32);
-		  encoder_value = 16;
-	}
-	else if (encoder_value > 18) {
-		__HAL_TIM_SET_COUNTER(&htim2, 0);
-		encoder_value = 0;
-	}
-}
-
 static void activate_pump(PUMP_GPIO* pump) {
 	HAL_GPIO_WritePin(pump->Port, pump->Pin, GPIO_PIN_SET);
+	pump->is_active = true;
 }
 
 static void deactivate_pump(PUMP_GPIO* pump) {
 	HAL_GPIO_WritePin(pump->Port, pump->Pin, GPIO_PIN_RESET);
+	pump->is_active = false;
 }
 
 static bool is_pump_activated(PUMP_GPIO* pump) {
-	if (HAL_GPIO_ReadPin(pump->Port, pump->Pin) == GPIO_PIN_SET) {
-		return true;
-	}
-	return false;
+	return pump->is_active;
 }
 
 static bool start_preheating() {
-
-	/*
-	 * Rozpoczenie rozpalania
-	 * */
-
-	return false;
+	return should_start();
 }
 
 
@@ -205,6 +202,22 @@ static bool wrong_sensor_read() {
 	}
 	return false;
 }
+
+
+static void update_menu_data() {
+	menu_data.fsm_mode = (uint8_t)current_state;
+	menu_data.furnace = (int8_t)temperature_array[0];
+	menu_data.tank_top = (int8_t)temperature_array[2];
+	menu_data.tank_bottom = (int8_t)temperature_array[3];
+	menu_data.active_f_pump = is_pump_activated(&furnace_pump) ? 1 : 0;
+	menu_data.active_m_pump = is_pump_activated(&mixing_pump) ? 1 : 0;
+	menu_data.active_u_pump = is_pump_activated(&underfloor_pump) ? 1 : 0;
+	menu_data.active_blower = is_pump_activated(&blower) ? 1 : 0;
+
+	send_input_data(&menu_data);
+	get_settings_data(&fcc);
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -213,6 +226,7 @@ static bool wrong_sensor_read() {
   */
 int main(void)
 {
+
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -244,33 +258,37 @@ int main(void)
   MX_SDMMC1_SD_Init();
   MX_FATFS_Init();
   MX_RTC_Init();
-  MX_SPI1_Init();
   MX_TIM2_Init();
+  MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start(&htim6);
   OW_init(&huart3, &htim6); // init One Wire DS18B20 library
   eeprom_init(&hi2c1);		// init EEPROM library
-  menu_init(&encoder_value, &enc_btn, &fcc, temperature_array); // init Menu library
 
   read_fc_configuration(&fcc); // read furance config from EEPORM
   if (set_rtc_datatime() != HAL_OK)
 	  printf("RTC Error\n");
 
-  // init LCD library
-  if (lcd_init(&hspi1, &lcd_cs, &lcd_dc, &lcd_rst) != HAL_OK)
-	  printf("LCD ERROR\n");
-
   get_all_temperature(temperature_array, fcc.temperature_offset);  // read temperatures
 
-  HAL_TIM_Base_Start_IT(&htim7);
+  lv_init();
 
-  HAL_TIM_Encoder_Start(&htim2, TIM_CHANNEL_ALL);
+  lv_port_disp_init();
+  lv_port_indev_init();
+
+  lv_group_t* menu_group = lv_group_create();
+  lv_group_set_default(menu_group);
+  lv_indev_set_group(encoder_get_ptr(), menu_group);
+
+  menu_init(&fcc);
+  start_menu();
+  send_input_data(&menu_data);
+
+  HAL_TIM_Base_Start_IT(&htim7);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-
-  uint8_t last_encoder_value = 255;
   SD_Controll_Status sd_res;
 
   while (1) {
@@ -285,7 +303,14 @@ int main(void)
 			  break;
 		  }
 
+		  if (temperature_diff_counter >= 5) {
+			  temperature_diff_counter = 0;
+			  last_state = current_state;
+			  current_state = FSM_PREHEATING;
+		  }
+
 		  if (temperature_array[0] >= fcc.furnace_turn_off_temperature || start_preheating()) {
+			  temperature_diff_counter = 0;
 			  last_state = current_state;
 			  current_state = FSM_PREHEATING;
 		  }
@@ -320,8 +345,22 @@ int main(void)
 			  current_state = FSM_WORK;
 		  }
 
+		  if (temperature_diff_counter <= -5) {
+		  		temperature_diff_counter = 0;
+		  		if (temperature_array[0] >= fcc.furnace_turn_off_temperature) {
+		  			last_state = current_state;
+		  			current_state = FSM_EXTINCTION;
+		  		}
+		  		else {
+					last_state = current_state;
+					current_state = FSM_IDLE;
+		  		}
+		  }
 
-		  // TODO przejscie do IDLE gdy nie uda sie rozpalic
+		  if (temperature_array[0] >= FURNACE_OVERHEAT_TEMPERATURE || temperature_array[1] >= OUT_WATER_OVERHEAT_TEMPERATURE) {
+			  last_state = current_state;
+			  current_state = FSM_OVERHEATING;
+		  }
 
 		  break;
 	  }
@@ -386,6 +425,17 @@ int main(void)
 		  deactivate_pump(&blower);
 		  deactivate_pump(&mixing_pump); // mieszanie wody?
 
+		  if (temperature_array[0] <= 25.0) {
+			  last_state = current_state;
+			  current_state = FSM_IDLE;
+		  }
+
+		  if (temperature_diff_counter >= 5) {
+		  		temperature_diff_counter = 0;
+		  		last_state = current_state;
+		  		current_state = FSM_PREHEATING;
+		  }
+
 		  if (temperature_array[0] >= FURNACE_OVERHEAT_TEMPERATURE || temperature_array[1] >= OUT_WATER_OVERHEAT_TEMPERATURE) {
 			  last_state = current_state;
 			  current_state = FSM_OVERHEATING;
@@ -438,18 +488,6 @@ int main(void)
 	  }
 	  }
 
-	  read_encoder_data(); // read data from encoder
-	  if (last_encoder_value != encoder_value) {
-		  printf("Encoder = %d\n", encoder_value);
-	  	  last_encoder_value = encoder_value;
-	  }
-
-	  if (render_menu() != HAL_OK) {
-		  printf("SPI DMA error! Error code = %d\n", hspi1.State);
-	  }
-
-	  printf("T1= %f C\tT2= %f C\n", temperature_array[0], temperature_array[1]);
-
 	  if (do_log) {
 		  do_log = false;
 		  sd_res = log_data(temperature_array[0]);
@@ -457,7 +495,18 @@ int main(void)
 			  printf("SD ERROR %d\t", sd_res);
 	  }
 
-	  HAL_Delay(50);
+	  printf("T1= %f C\tT2= %f C\n", temperature_array[0], temperature_array[1]);
+	  printf("T3= %f C\tT4= %f C\n", temperature_array[2], temperature_array[3]);
+	  printf("C state: %d\tTemp diff: %d\n", current_state, temperature_diff_counter);
+
+	  update_menu_data();
+
+	  check_if_inactive();
+
+	  lv_timer_handler();
+	  encoder_handler();
+
+	  HAL_Delay(5); // czy potrzebne?
 
     /* USER CODE END WHILE */
 

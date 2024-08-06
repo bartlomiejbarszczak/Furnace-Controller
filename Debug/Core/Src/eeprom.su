@@ -1,4 +1,4 @@
 ../Core/Src/eeprom.c:12:13:eeprom_wait	8	static
-../Core/Src/eeprom.c:19:6:eeprom_init	16	static
-../Core/Src/eeprom.c:25:19:eeprom_write	48	static
-../Core/Src/eeprom.c:41:19:eeprom_read	40	static
+../Core/Src/eeprom.c:19:6:eeprom_init	8	static
+../Core/Src/eeprom.c:25:19:eeprom_write	32	static
+../Core/Src/eeprom.c:41:19:eeprom_read	32	static

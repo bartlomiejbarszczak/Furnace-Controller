@@ -39,8 +39,8 @@ ENTRY(Reset_Handler)
 /* Highest address of the user mode stack */
 _estack = ORIGIN(RAM) + LENGTH(RAM); /* end of "RAM" Ram type memory */
 
-_Min_Heap_Size = 0x400; /* required amount of heap */
-_Min_Stack_Size = 0x2000; /* required amount of stack */
+_Min_Heap_Size = 0x2000; /* required amount of heap */
+_Min_Stack_Size = 0x3000; /* required amount of stack */
 
 /* Memories definition */
 MEMORY
@@ -87,12 +87,24 @@ SECTIONS
     . = ALIGN(4);
   } >FLASH
 
+  .ARM.extab (READONLY) : {
+    . = ALIGN(4);
+    *(.ARM.extab* .gnu.linkonce.armextab.*)
+    . = ALIGN(4);
+  } >FLASH
   .ARM.extab   : {
     . = ALIGN(4);
     *(.ARM.extab* .gnu.linkonce.armextab.*)
     . = ALIGN(4);
   } >FLASH
 
+  .ARM (READONLY) : {
+    . = ALIGN(4);
+    __exidx_start = .;
+    *(.ARM.exidx*)
+    __exidx_end = .;
+    . = ALIGN(4);
+  } >FLASH
   .ARM : {
     . = ALIGN(4);
     __exidx_start = .;
@@ -101,6 +113,14 @@ SECTIONS
     . = ALIGN(4);
   } >FLASH
 
+  .preinit_array (READONLY)   :
+  {
+    . = ALIGN(4);
+    PROVIDE_HIDDEN (__preinit_array_start = .);
+    KEEP (*(.preinit_array*))
+    PROVIDE_HIDDEN (__preinit_array_end = .);
+    . = ALIGN(4);
+  } >FLASH
   .preinit_array     :
   {
     . = ALIGN(4);
@@ -110,6 +130,15 @@ SECTIONS
     . = ALIGN(4);
   } >FLASH
 
+  .init_array (READONLY) :
+  {
+    . = ALIGN(4);
+    PROVIDE_HIDDEN (__init_array_start = .);
+    KEEP (*(SORT(.init_array.*)))
+    KEEP (*(.init_array*))
+    PROVIDE_HIDDEN (__init_array_end = .);
+    . = ALIGN(4);
+  } >FLASH
   .init_array :
   {
     . = ALIGN(4);
@@ -120,6 +149,15 @@ SECTIONS
     . = ALIGN(4);
   } >FLASH
 
+  .fini_array (READONLY) :
+  {
+    . = ALIGN(4);
+    PROVIDE_HIDDEN (__fini_array_start = .);
+    KEEP (*(SORT(.fini_array.*)))
+    KEEP (*(.fini_array*))
+    PROVIDE_HIDDEN (__fini_array_end = .);
+    . = ALIGN(4);
+  } >FLASH
   .fini_array :
   {
     . = ALIGN(4);
@@ -174,6 +212,7 @@ SECTIONS
     . = . + _Min_Stack_Size;
     . = ALIGN(8);
   } >RAM
+  
 
   /* Remove information from the compiler libraries */
   /DISCARD/ :

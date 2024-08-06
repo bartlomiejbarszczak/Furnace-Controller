@@ -6,14 +6,14 @@
 #define DS18B20_SKIP_ROM           	0xcc
 #define DS18B20_ALARM_SEARCH	   	0xec
 #define DS18B20_CONVERT_T          	0x44
-#define DS18B20_WRITE_SCRATCHPAD   	0xeh
+#define DS18B20_WRITE_SCRATCHPAD   	0x4e
 #define DS18B20_READ_SCRATCHPAD    	0xbe
 #define DS18B20_COPY_SCRACHPAD	   	0x48
 #define DS18B20_RECALL_E2		   	0xb8
 #define BS18B20_READ_POWER_SUPPLY	0x4h
 
 #define OFFSET						0
-#define NO_SENSORS					(uint8_t)2
+#define NO_SENSORS					(uint8_t)4
 
 static TIM_HandleTypeDef OW_Tim;
 static UART_HandleTypeDef OW_UART;
@@ -139,7 +139,7 @@ static HAL_StatusTypeDef DS18B20_convert_temperature(uint8_t* ROM) {
 
 	Write_byte(DS18B20_CONVERT_T);
 
-	delay_us(800);
+	delay_us(95);
 
 	return HAL_OK;
 }
@@ -238,7 +238,7 @@ HAL_StatusTypeDef DS18B20_get_temperature(uint8_t* ROM, float* temperature, uint
 
 void get_all_temperature(float* temperature_array, uint8_t user_offset) {
 	for (uint8_t i = 0; i < NO_SENSORS; i++) {
-		while(DS18B20_get_temperature(ROM_array[i], (temperature_array + i), user_offset) != HAL_OK && cannot_read_attempt < 10) {
+		while(DS18B20_get_temperature(ROM_array[i >> 1], (temperature_array + i), user_offset) != HAL_OK && cannot_read_attempt < 10) {
 			cannot_read_attempt++;
 		}
 		if (cannot_read_attempt == 10) {
@@ -247,5 +247,3 @@ void get_all_temperature(float* temperature_array, uint8_t user_offset) {
 		cannot_read_attempt = 0;
 	}
 }
-
-

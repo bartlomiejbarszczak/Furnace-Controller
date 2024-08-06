@@ -1,4 +1,2 @@
-../Core/Src/sd_controll.c:6:13:prepare_date	1
-../Core/Src/sd_controll.c:21:13:prepare_prefix	1
-../Core/Src/sd_controll.c:32:19:set_rtc_datatime	3
-../Core/Src/sd_controll.c:57:20:log_data	7
+../Core/Src/sd_controll.c:32:19:set_rtc_datatime	2
+../Core/Src/sd_controll.c:57:20:log_data	6

@@ -4,12 +4,12 @@
 static bool has_changes = false;
 
 
-static void serialize_FCC(FCC* data, uint8_t* buffer) {
+void serialize_FCC(FCC* data, uint8_t* buffer) {
 	memcpy(buffer, data, sizeof(FCC));
 }
 
 
-static void deserialize_FCC(FCC* data, uint8_t* buffer) {
+void deserialize_FCC(FCC* data, uint8_t* buffer) {
 	memcpy(data, buffer, sizeof(FCC));
 }
 
@@ -43,11 +43,17 @@ HAL_StatusTypeDef write_fc_configuration(FCC* fcc) {
 				return HAL_ERROR;
 		}
 
+		printf("EEPROM write data\n");
 
 		has_changes = false;
 	}
 
 	return HAL_OK;
+}
+
+
+void made_changes(void) {
+	has_changes = true;
 }
 
 
@@ -136,7 +142,7 @@ void fcc_set_furnace_pump_hysteresis(FCC* fcc, uint8_t furnace_pump_hysteresis) 
 
 
 // set temperature offset
-void fcc_set_temperature_offset(FCC* fcc, uint8_t temperature_offset) {
+void fcc_set_temperature_offset(FCC* fcc, int8_t temperature_offset) {
 	fcc->temperature_offset = temperature_offset;
 	has_changes = true;
 }

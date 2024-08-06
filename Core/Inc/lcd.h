@@ -1,28 +1,15 @@
-/*
- * LCD.h
- *
- *  Created on: Oct 18, 2023
- *      Author: Bartlomiej
- */
+#ifndef LCD_LCD_H_
+#define LCD_LCD_H_
 
-#pragma once
-
-#include "main.h"
-#include <stdint.h>
-#include "spi.h"
+#include "stdint.h"
 #include "stdbool.h"
 
-/* LCD resolution */
-#define LCD_WIDTH	160
-#define LCD_HEIGHT	128
+/* LCD Resolution */
+//#define LCD_WIDTH 	160U
+//#define LCD_HEIGHT 	128U
+#define LCD_MAX_TIMEOUT 100U
 
-
-/* Offsets */
-#define LCD_OFFSET_X  1
-#define LCD_OFFSET_Y  2
-
-
-/* Steering commands */
+/* LCD COMMANDS */
 #define ST7735S_SLPOUT			0x11
 #define ST7735S_DISPOFF			0x28
 #define ST7735S_DISPON			0x29
@@ -45,49 +32,9 @@
 #define ST7735S_GAMCTRN1		0xe1
 
 
-/* Colors */
-#define BLACK     0x0000
-#define RED       0xf800
-#define GREEN     0x07e0
-#define BLUE      0x001f
-#define YELLOW    0xffe0
-#define MAGENTA   0xf81f
-#define CYAN      0x07ff
-#define WHITE     0xffff
+void lcd_init(void);
+void lcd_set_window(int x, int y, int width, int height);
+void lcd_draw_bitmap(uint16_t width, uint16_t height, uint8_t* px_map);
 
 
-typedef enum LCD_STATE{
-	LCD_OK = 0,
-	LCD_BUSY
-} LCD_STATE;
-
-
-typedef struct LCD_GPIO {
-	GPIO_TypeDef* Port;
-	uint16_t Pin;
-} LCD_GPIO;
-
-
-void lcd_full_box(int x, int y, int width, int height, uint16_t color);
-
-void lcd_put_pixel(int16_t x, int16_t y, uint16_t color);
-
-HAL_StatusTypeDef lcd_init(SPI_HandleTypeDef* lcd_spi, LCD_GPIO* lcd_cs, LCD_GPIO* lcd_dc, LCD_GPIO* lcd_rst);
-
-HAL_StatusTypeDef lcd_show(void);
-
-void lcd_transfer_done(void);
-
-bool lcd_is_busy(void);
-
-void lcd_draw_circle_full(int x, int y, int radius, uint16_t color);
-
-void lcd_draw_circle(int x, int y, int radius, uint16_t color);
-
-void lcd_draw_line(int start_x, int start_y, int end_x, int end_y, uint16_t color);
-
-HAL_StatusTypeDef lcd_draw_background();
-
-HAL_StatusTypeDef lcd_draw_setting_1();
-
-HAL_StatusTypeDef lcd_draw_setting_2();
+#endif /* LCD_LCD_H_ */

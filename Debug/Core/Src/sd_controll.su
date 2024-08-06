@@ -1,4 +1,2 @@
-../Core/Src/sd_controll.c:6:13:prepare_date	64	static
-../Core/Src/sd_controll.c:21:13:prepare_prefix	136	static
 ../Core/Src/sd_controll.c:32:19:set_rtc_datatime	32	static
-../Core/Src/sd_controll.c:57:20:log_data	1224	static
+../Core/Src/sd_controll.c:57:20:log_data	1368	static
